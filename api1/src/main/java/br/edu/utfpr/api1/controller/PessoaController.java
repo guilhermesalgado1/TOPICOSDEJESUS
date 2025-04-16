@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.utfpr.api1.model.Pessoa;
 import br.edu.utfpr.api1.repository.PessoaRepository;
 
-import java.time.temporal.ValueRange;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
