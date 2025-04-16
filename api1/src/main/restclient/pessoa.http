@@ -1,0 +1,15 @@
+@URL = http://localhost:8080/pessoa
+
+
+
+### Criar
+POST {{URL}}
+Content-Type: application/json
+
+{
+    "nome": "Juca",
+    "email": "juca@gmail.com"
+}
+
+### obter
+GET {{URL}}/1
