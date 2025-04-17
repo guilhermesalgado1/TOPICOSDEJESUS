@@ -3,6 +3,9 @@ package br.edu.utfpr.api1.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,25 +13,23 @@ import lombok.*;
 @Table(name = "tb_grade_amostral")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class GradeAmostral extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ElementCollection
-    @CollectionTable(name = "grade_amostral_pontos", joinColumns = @JoinColumn(name = "grade_amostral_id"))
-    @Column(name = "coordenada")
+    //nome
+
+    //@ElementCollection
+    //@CollectionTable(name = "tb_grade_amostral_pontos", joinColumns = @JoinColumn(name = "grade_amostral_id"))
+    // Pontos amostrais
+    @Column(columnDefinition = "jsonb",  name = "pontos")
+    @JdbcTypeCode(SqlTypes.JSON)
     private List<String> pontos = new ArrayList<>();
 
-   // @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
-   // lista de pontos
-
-    @Column(nullable = false)
-    private Double latitude;
-
-    @Column(nullable = false)
-    private Double longitude;
 
     @ManyToOne
     @JoinColumn(name = "propriedade_id")
@@ -37,4 +38,6 @@ public class GradeAmostral extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "tipo_solo_id")
     private TipoSolo tipoSolo;
+
+
 }

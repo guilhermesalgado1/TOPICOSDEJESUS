@@ -1,8 +1,12 @@
 package br.edu.utfpr.api1.service;
 
+import br.edu.utfpr.api1.model.GradeAmostral; 
 import br.edu.utfpr.api1.repository.GradeAmostralRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,19 +16,22 @@ public class GradeAmostralService {
 
     private final GradeAmostralRepository gradeAmostralRepository;
 
-    public List<GradeAmostralRepository> findAll() {
+    public List<GradeAmostral> findAll(PageRequest pageRequest) {
         return gradeAmostralRepository.findAll();
     }
 
-    public Optional<GradeAmostralRepository> findById(Long id) {
+    public Optional<GradeAmostral> findById(Long id) {
         return gradeAmostralRepository.findById(id);
     }
 
-    public GradeAmostralRepository save(GradeAmostralRepository gradeAmostral) {
+    public GradeAmostral save(GradeAmostral gradeAmostral) {
         return gradeAmostralRepository.save(gradeAmostral);
     }
 
     public void deleteById(Long id) {
         gradeAmostralRepository.deleteById(id);
     }
-}
+
+
+    }
+

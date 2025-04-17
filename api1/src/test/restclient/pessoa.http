@@ -1,0 +1,15 @@
+@URL=http://localhost:8080/pessoa
+
+
+### GET /pessoa/1 HTTP/1.1
+GET {{URL}}/1 HTTP/1.1
+
+
+### POST /pessoa HTTP/1.1
+POST /pessoa HTTP/1.1
+Content-Type: application/json
+
+{
+  "nome": "João",
+  "idade": 30
+}
