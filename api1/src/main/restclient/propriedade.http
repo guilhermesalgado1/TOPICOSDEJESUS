@@ -1,0 +1,33 @@
+@URL_PROPRIEDADE = http://localhost:8080/api/propriedades
+
+### [POST] Criar Propriedade
+POST {{URL_PROPRIEDADE}}
+Content-Type: application/json
+
+{
+  "nome": "Chácara Verde Vale",
+  "localizacao": "Interior do PR",
+  "poligono": ["ponto1", "ponto2", "ponto3"]
+}
+
+### [GET] Buscar todas as propriedades
+GET {{URL_PROPRIEDADE}}
+
+### [GET] Buscar Propriedade por ID
+GET {{URL_PROPRIEDADE}}/1
+
+### [PUT] Atualizar Propriedade
+PUT {{URL_PROPRIEDADE}}/1
+Content-Type: application/json
+
+{
+  "nome": "Sítio Boa Esperança",
+  "localizacao": "Zona rural de Medianeira",
+  "poligono": ["p1", "p2", "p3", "p4"]
+}
+
+### [DELETE] Deletar Propriedade por ID
+DELETE {{URL_PROPRIEDADE}}/1
+
+### [GET] Buscar apenas o polígono da propriedade
+GET {{URL_PROPRIEDADE}}/1/poligono

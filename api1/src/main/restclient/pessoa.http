@@ -1,15 +1,28 @@
 @URL = http://localhost:8080/pessoa
 
-
-
-### Criar
+### Criar pessoa
 POST {{URL}}
 Content-Type: application/json
 
 {
-    "nome": "Juca",
-    "email": "juca@gmail.com"
+  "nome": "Juca",
+  "email": "juca@gmail.com"
 }
 
-### obter
+### Listar todas as pessoas
+GET {{URL}}
+
+### Obter pessoa por ID
 GET {{URL}}/1
+
+### Atualizar pessoa por ID
+PUT {{URL}}/1
+Content-Type: application/json
+
+{
+  "nome": "Juca Atualizado",
+  "email": "juca.atualizado@email.com"
+}
+
+### Deletar pessoa por ID
+DELETE {{URL}}/1

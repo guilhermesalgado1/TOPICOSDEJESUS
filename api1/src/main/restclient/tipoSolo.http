@@ -1,0 +1,31 @@
+@URL_TIPO_SOLO = http://localhost:8080/api/tipos-solo
+
+### [POST] Criar TipoSolo
+POST {{URL_TIPO_SOLO}}
+Content-Type: application/json
+
+{
+  "nome": "Argiloso",
+  "descricao": "Solo com alta concentração de argila"
+}
+
+### [GET] Buscar todos os tipos de solo
+GET {{URL_TIPO_SOLO}}
+
+### [GET] Buscar TipoSolo por ID
+GET {{URL_TIPO_SOLO}}/1
+
+### [PUT] Atualizar TipoSolo
+PUT {{URL_TIPO_SOLO}}/1
+Content-Type: application/json
+
+{
+  "nome": "Arenoso",
+  "descricao": "Solo com maior presença de areia"
+}
+
+### [DELETE] Deletar TipoSolo por ID
+DELETE {{URL_TIPO_SOLO}}/1
+
+### [GET] Buscar apenas a descrição do TipoSolo
+GET {{URL_TIPO_SOLO}}/1/descricao

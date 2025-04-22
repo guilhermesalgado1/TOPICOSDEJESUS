@@ -1,0 +1,41 @@
+@URL_GRADE = http://localhost:8080/api/grade-amostral
+
+### [POST] Criar nova Grade Amostral
+POST {{URL_GRADE}}
+Content-Type: application/json
+
+{
+  "pontos": ["ponto1", "ponto2", "ponto3"],
+  "propriedade": {
+    "id": 1
+  },
+  "tipoSolo": {
+    "id": 1
+  }
+}
+
+### [GET] Listar todas as grades amostrais (página 0, 10 por página)
+GET {{URL_GRADE}}?page=0&size=10
+
+### [GET] Buscar grade amostral por ID
+GET {{URL_GRADE}}/1
+
+### [PUT] Atualizar grade amostral por ID
+PUT {{URL_GRADE}}/1
+Content-Type: application/json
+
+{
+  "pontos": ["pontoAtualizadoA", "pontoAtualizadoB"],
+  "propriedade": {
+    "id": 1
+  },
+  "tipoSolo": {
+    "id": 1
+  }
+}
+
+### [DELETE] Deletar grade amostral por ID
+DELETE {{URL_GRADE}}/1
+
+### [GET] Buscar apenas os pontos da grade amostral
+GET {{URL_GRADE}}/1/pontos
