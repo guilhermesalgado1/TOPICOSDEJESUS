@@ -6,8 +6,15 @@ import java.util.List;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tb_grade_amostral")
@@ -17,15 +24,6 @@ import lombok.*;
 @Setter
 public class GradeAmostral extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    //nome
-
-    //@ElementCollection
-    //@CollectionTable(name = "tb_grade_amostral_pontos", joinColumns = @JoinColumn(name = "grade_amostral_id"))
-    // Pontos amostrais
     @Column(columnDefinition = "jsonb",  name = "pontos")
     @JdbcTypeCode(SqlTypes.JSON)
     private List<String> pontos = new ArrayList<>();

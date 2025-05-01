@@ -1,32 +1,41 @@
 package br.edu.utfpr.api1.controller;
 
-import br.edu.utfpr.api1.model.GradeAmostral;
-import br.edu.utfpr.api1.repository.GradeAmostralRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.edu.utfpr.api1.dto.GradeAmostralDTO;
+import br.edu.utfpr.api1.model.GradeAmostral;
+import br.edu.utfpr.api1.repository.GradeAmostralRepository;
+import br.edu.utfpr.api1.repository.PropriedadeRepository;
+import br.edu.utfpr.api1.repository.TipoSoloRepository;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 @RestController
-@RequestMapping("/api/grade-amostral")
+@RequestMapping("/api/gradeamostral")
 @RequiredArgsConstructor
 public class GradeAmostralController {
 
     private final GradeAmostralRepository gradeAmostralRepository;
+    private final PropriedadeRepository propriedadeRepository;
+    private final TipoSoloRepository tipoSoloRepository;
 
-    // Buscar todas as grade amostrais com paginação
+    // [GET] Obter todas as grades amostrais
     @GetMapping
-    public ResponseEntity<List<GradeAmostral>> getAll(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(
-            gradeAmostralRepository.findAll(PageRequest.of(page, size)).getContent()
-        );
+    public ResponseEntity<List<GradeAmostral>> getAll() {
+        return ResponseEntity.ok(gradeAmostralRepository.findAll());
     }
 
-    // Buscar grade amostral por ID
+    // [GET] Obter grade amostral por ID
     @GetMapping("/{id}")
     public ResponseEntity<GradeAmostral> getById(@PathVariable Long id) {
         return gradeAmostralRepository.findById(id)
@@ -34,39 +43,60 @@ public class GradeAmostralController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Criar nova grade amostral
+    // [POST] Criar nova grade amostral
     @PostMapping
-    public ResponseEntity<GradeAmostral> create(@RequestBody GradeAmostral gradeAmostral) {
-        return ResponseEntity.ok(gradeAmostralRepository.save(gradeAmostral));
+    public ResponseEntity<?> create(@Valid @RequestBody GradeAmostralDTO dto) {
+        var propriedade = propriedadeRepository.findById(dto.propriedadeId()).orElse(null);
+        var tipoSolo = tipoSoloRepository.findById(dto.tipoSoloId()).orElse(null);
+
+        if (propriedade == null || tipoSolo == null) {
+            return ResponseEntity.badRequest().body("Propriedade ou Tipo de Solo inválido.");
+        }
+
+        // Usando o método toEntity para criar a entidade a partir do DTO
+        GradeAmostral entidade = dto.toEntity(propriedade, tipoSolo);
+
+        // Salva e retorna a resposta
+        return ResponseEntity.status(201).body(gradeAmostralRepository.save(entidade));
     }
 
-    // Atualizar grade amostral existente
+    // [PUT] Atualizar grade amostral por ID
     @PutMapping("/{id}")
-    public ResponseEntity<GradeAmostral> update(@PathVariable Long id, @RequestBody GradeAmostral gradeAmostral) {
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody GradeAmostralDTO dto) {
         return gradeAmostralRepository.findById(id)
                 .map(existing -> {
-                    gradeAmostral.setId(id);
-                    return ResponseEntity.ok(gradeAmostralRepository.save(gradeAmostral));
+                    var propriedade = propriedadeRepository.findById(dto.propriedadeId()).orElse(null);
+                    var tipoSolo = tipoSoloRepository.findById(dto.tipoSoloId()).orElse(null);
+
+                    if (propriedade == null || tipoSolo == null) {
+                        return ResponseEntity.badRequest().body("Propriedade ou Tipo de Solo inválido.");
+                    }
+
+                    // Usando o método toEntity para atualizar a entidade
+                    GradeAmostral updatedEntity = dto.toEntity(propriedade, tipoSolo);
+                    updatedEntity.setId(id);  // Mantém o ID da entidade para atualização
+
+                    return ResponseEntity.ok(gradeAmostralRepository.save(updatedEntity));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Deletar grade amostral por ID
+    // [DELETE] Deletar grade amostral por ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         return gradeAmostralRepository.findById(id)
-                .map(existing -> {
+                .map(p -> {
                     gradeAmostralRepository.deleteById(id);
-                    return ResponseEntity.noContent().build();
+                    return ResponseEntity.noContent().<Void>build();
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Buscar apenas os pontos da grade amostral (json)
+    // [GET] Obter pontos da grade amostral
     @GetMapping("/{id}/pontos")
-    public ResponseEntity<List<String>> getPontos(@PathVariable Long id) {
+    public ResponseEntity<?> getPontos(@PathVariable Long id) {
         return gradeAmostralRepository.findById(id)
-                .map(gradeAmostral -> ResponseEntity.ok(gradeAmostral.getPontos()))
+                .map(g -> ResponseEntity.ok(g.getPontos()))
                 .orElse(ResponseEntity.notFound().build());
     }
 }
