@@ -6,13 +6,10 @@ Content-Type: application/json
 
 {
   "pontos": ["ponto1", "ponto2", "ponto3"],
-  "propriedade": {
-    "id": 1
-  },
-  "tipoSolo": {
-    "id": 1
-  }
+  "propriedadeId": 1,
+  "tipoSoloId": 1
 }
+
 
 ### [GET] Listar todas as grades amostrais (página 0, 10 por página)
 GET {{URL_GRADE}}?page=0&size=10
