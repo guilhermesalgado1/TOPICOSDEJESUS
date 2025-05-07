@@ -1,5 +1,6 @@
 package br.edu.utfpr.api1.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.utfpr.api1.model.GradeAmostral;
@@ -8,7 +9,7 @@ import br.edu.utfpr.api1.model.TipoSolo;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public class GradeAmostralDTO {
+public record GradeAmostralDTO(
  
     Long id,
 
