@@ -1,7 +1,10 @@
 @URL_PROPRIEDADE = http://localhost:8080/api/propriedades
 
+@token=eyJraWQiOiJnTkYzbmV6SW9JXC8ySjhJNUVmQlp0dlhmU3NLaVFwUmYweE1BaEw2aXhmcz0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjMTJiNzU4MC1kMDIxLTcwZDctZDUwNS0zYTAwMTZiMjc2MDgiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0yLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMl82N1FGak1tblkiLCJjbGllbnRfaWQiOiI0OTJrcnBncjVqYnQzY2tmZW5kNDM0ZmlwbSIsIm9yaWdpbl9qdGkiOiI1ZmJhMzBjMC02MTBmLTQ3ZDEtYjBjNS1kOTQ5MzIxMTIwMzciLCJldmVudF9pZCI6Ijk2NzA4ODBmLTFlMmMtNGQ2NC1hZTBlLWYxN2MwNGM1MzMyYSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE3NDY3MDkyNjEsImV4cCI6MTc0NjcxMjg2MSwiaWF0IjoxNzQ2NzA5MjYxLCJqdGkiOiI1MzFhNWUwZS1mZDdmLTQ1ZGMtYjhhNi03ZWFjNDNhOWJmMTAiLCJ1c2VybmFtZSI6Imd1aWxoZXJtZSJ9.p6tkfsi0Sb3w2Cg0VJuvnyWH_plEC_8mO9C6sNqWwR1jgliV2BkIxnleuelwMscQsLeFegeg7Q1xeuKKjGhyxUmnVMHtlnDMlNCIBXc3_Cd0PJp3Mp8idpw8ve-GEL4aLtmBLliPuqTfCPd8sJj-FAnQkpKndw5Q40R7935yxMls1OULV7BwLDWiA8NXQ4AKCFSK9DWON8PepHvtShIfkZ69IcC2jukyJVmVcYuB64l-b08mBXOJBbNaWz3p6E7BftC14biZk1SNTLkESk65PjVHCOXExdjZ96d9tr7ziWZrCG0lA_1k-4NvZCPApI81WJgyE21qABazHHwZdDtuNg
+
 ### [POST] Criar Propriedade
 POST {{URL_PROPRIEDADE}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -12,12 +15,15 @@ Content-Type: application/json
 
 ### [GET] Buscar todas as propriedades
 GET {{URL_PROPRIEDADE}}
+Authorization: Bearer {{token}}
 
 ### [GET] Buscar Propriedade por ID
 GET {{URL_PROPRIEDADE}}/1
+Authorization: Bearer {{token}}
 
 ### [PUT] Atualizar Propriedade
 PUT {{URL_PROPRIEDADE}}/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -28,6 +34,8 @@ Content-Type: application/json
 
 ### [DELETE] Deletar Propriedade por ID
 DELETE {{URL_PROPRIEDADE}}/1
+Authorization: Bearer {{token}}
 
 ### [GET] Buscar apenas o polígono da propriedade
 GET {{URL_PROPRIEDADE}}/1/poligono
+Authorization: Bearer {{token}}
