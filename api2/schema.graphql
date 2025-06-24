@@ -1,0 +1,18 @@
+type Pessoa {
+  id: ID!
+  nome: String!
+  email: String!
+}
+
+type Query {
+  # sempre retorna uma lista (pode ser vazia), e cada Pessoa é não-nula
+  listarPessoas: [Pessoa!]!
+  buscarPessoa(id: ID!): Pessoa
+}
+
+type Mutation {
+  criarPessoa(nome: String!, email: String!): Pessoa
+  atualizarPessoa(id: ID!, nome: String, email: String): Pessoa
+  # retorna true/false — mudei para Boolean!
+  deletarPessoa(id: ID!): Boolean!
+}

@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
   "pontos": ["ponto1", "ponto2", "ponto3"],
-  "propriedadeId": 1,
+  "propriedadeId": 2,
   "tipoSoloId": 1
 }
 
