@@ -6,6 +6,7 @@ import PessoasButton from './PessoasButton';
 import TipoSoloButton from './TipoSoloButton';
 
 export default function Dashboard() {
+
   const { user, logout } = useContext(AuthContext);
 
   // Fallbacks seguros
@@ -15,6 +16,12 @@ export default function Dashboard() {
     // server-side redirect (folded no hydration) – opcional
     redirect('/');
   }
+
+
+
+
+
+
 
   return (
     <div className="p-6">
