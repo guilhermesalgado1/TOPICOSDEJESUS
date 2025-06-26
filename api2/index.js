@@ -4,6 +4,7 @@ const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
 const fs = require('fs');
 const path = require('path');
+const cors          = require('cors');
 
 // importe seu objeto de resolvers
 const resolvers = require('./schema/resolvers');
@@ -11,6 +12,17 @@ const { Query, Mutation /*, Pessoa: PessoaFields se quiser mapear campos */ } = 
 
 const app = express();
 const PORT = 4000;
+
+app.use(cors({
+  origin: 'http://localhost:3000',      // front
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
+
+app.options('/graphql', cors());
+
+app.use(express.json());
 
 // Conexão com o MongoDB
 mongoose.connect(

@@ -2,6 +2,8 @@
 import { useContext } from 'react';
 import { AuthContext } from '@/context/AuthContext';
 import { redirect } from 'next/navigation';
+import PessoasButton from './PessoasButton';
+import TipoSoloButton from './TipoSoloButton';
 
 export default function Dashboard() {
   const { user, logout } = useContext(AuthContext);
@@ -25,6 +27,10 @@ export default function Dashboard() {
       <button onClick={logout} className="mt-4 text-blue-500 underline">
         Sair
       </button>
+
+      <TipoSoloButton />
+
+      <PessoasButton />
     </div>
   );
 }

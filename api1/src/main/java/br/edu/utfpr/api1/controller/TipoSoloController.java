@@ -20,7 +20,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/tipos-solo")
+@RequestMapping(value = "/tipos-solo", produces = "application/json")
 @RequiredArgsConstructor
 public class TipoSoloController {
 

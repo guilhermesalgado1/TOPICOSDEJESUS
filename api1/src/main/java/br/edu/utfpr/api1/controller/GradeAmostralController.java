@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/grade-amostral")
+@RequestMapping(value = "/grade-amostral", produces = "application/json")
 @RequiredArgsConstructor
 @Validated
 public class GradeAmostralController {
