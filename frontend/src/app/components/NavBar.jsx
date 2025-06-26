@@ -6,6 +6,8 @@ import { AuthContext } from '@/context/AuthContext';
 export default function NavBar() {
   const { user, logout } = useContext(AuthContext);
 
+  if (!user) return null;
+
   return (
     <nav className="bg-gray-900 text-white px-4 py-2 flex items-center">
       {/* logo / home */}
@@ -14,7 +16,7 @@ export default function NavBar() {
       {/* links principais */}
       <Link href="/amostras"  className="mr-4 hover:underline">Amostras</Link>
       <Link href="/propriedades"  className="mr-4 hover:underline">Propriedades</Link>
-      <Link href="/tiposSolo"  className="mr-4 hover:underline">Tipos de Solo</Link>
+      <Link href="/tiposSolo"  className="mr-4 hover:underline">Tipos&nbsp;de&nbsp;Solo</Link>
       <Link href="/pessoas"   className="mr-auto hover:underline">Pessoas</Link>
 
       {/* avatar + logout */}

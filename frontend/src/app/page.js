@@ -21,12 +21,16 @@ export default function Home() {
   if (!user) {
     return (
       <main className="flex h-screen items-center justify-center">
-        <button
-          onClick={login}
-          className="px-6 py-3 bg-blue-600 text-white rounded"
-        >
-          Entrar
-        </button>
+        <div className="flex flex-col items-center gap-6">
+          <h1 className="text-2xl font-bold">Faça seu Login!</h1>
+          <br></br>
+          <button
+            onClick={login}
+            className="px-6 py-3 bg-blue-600 text-white rounded"
+          >
+            Entrar
+          </button>
+        </div>
       </main>
     );
   }

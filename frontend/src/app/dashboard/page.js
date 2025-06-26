@@ -1,11 +1,34 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '@/context/AuthContext';
 import { redirect } from 'next/navigation';
+import Card from '@/app/components/Card'; // ajuste o path se necessário
 import PessoasButton from './PessoasButton';
 import TipoSoloButton from './TipoSoloButton';
 
+import {
+  getLastAmostra,
+  getLastPropriedade,
+  getLastTipoSolo,
+} from '@/services/apiHelpers';
+
 export default function Dashboard() {
+  const [data, setData] = useState({
+    amostra:      null,
+    propriedade:  null,
+    tipoSolo:     null,
+  });
+
+  const [loading, setLd] = useState(true);
+
+  useEffect(() => {
+    Promise.all([getLastAmostra(), getLastPropriedade(), getLastTipoSolo()])
+      .then(([amostra, propriedade, tipoSolo]) =>
+        setData({ amostra, propriedade, tipoSolo })
+      )
+      .finally(() => setLd(false));
+  }, []);
 
   const { user, logout } = useContext(AuthContext);
 
@@ -29,15 +52,31 @@ export default function Dashboard() {
          Bem-vindo{email ? `, ${email}` : ''}!
       </h1>
 
-      <p>Você está logado e pode acessar os dados protegidos.</p>
+      <div className="p-6 grid md:grid-cols-3 gap-4">
+        {/* --- CARD AMOSTRA --- */}
+        <Card
+          title="Última Amostra"
+          item={data.amostra}
+          entity="amostras"
+          fields={['id']}
+        />
 
-      <button onClick={logout} className="mt-4 text-blue-500 underline">
-        Sair
-      </button>
+        {/* --- CARD PROPRIEDADE --- */}
+        <Card
+          title="Última Propriedade"
+          item={data.propriedade}
+          entity="propriedades"
+          fields={['nome', 'localizacao']}
+        />
 
-      <TipoSoloButton />
-
-      <PessoasButton />
+        {/* --- CARD TIPO SOLO --- */}
+        <Card
+          title="Último Tipo de Solo"
+          item={data.tipoSolo}
+          entity="tiposSolo"
+          fields={['nome', 'descricao']}
+        />
+      </div>
     </div>
   );
 }
