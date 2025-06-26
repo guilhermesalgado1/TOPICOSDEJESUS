@@ -44,6 +44,13 @@ export default function AmostrasPage() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Amostras cadastradas</h1>
 
+        <Link
+          href="/amostras/novo"
+          className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-sm font-medium"
+        >
+          + Nova amostra
+        </Link>
+
       <table className="min-w-full text-sm">
         <thead>
           <tr className="border-b border-gray-700">
