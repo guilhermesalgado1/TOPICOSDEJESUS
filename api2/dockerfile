@@ -1,0 +1,9 @@
+# api2/Dockerfile
+FROM node:18-alpine AS build
+WORKDIR /app
+# Ajusta o caminho para copiar o package.json da pasta api2
+COPY package*.json ./
+RUN npm install
+COPY . ./
+# Aqui você pode definir os comandos para iniciar a aplicação
+CMD ["npm", "run", "dev"]
