@@ -1,0 +1,71 @@
+pipeline {
+    agent any  // executa no agente padrão (master, que no nosso caso é o próprio contêiner Jenkins)
+
+    triggers {
+        // Agendador para rodar todo dia às 00:00 (meia-noite)
+        cron('0 0 * * *')
+    }
+
+    stages {
+        stage('Checkout do Código') {
+            steps {
+                // Clonar do repositório Git local (ajuste a URL conforme seu path montado)
+                git url: 'file:///var/jenkins_home/projeto.git', branch: 'main'
+                // Obs: Se tivesse credenciais (para repo remoto privado), configuraria usando Jenkins credentials.
+            }
+        }
+
+        stage('Remover Containers e Imagens Antigos') {
+            steps {
+                // Remover contêineres se estiverem rodando (ignora erro se não existir, por isso '|| true')
+                sh 'docker rm -f frontend-container || true'
+                sh 'docker rm -f spring-container || true'
+                sh 'docker rm -f node-container || true'
+                // Remover imagens antigas para liberar espaço (|| true para não falhar se não existir)
+                sh 'docker rmi meuapp/frontend:latest || true'
+                sh 'docker rmi meuapp/spring-api:latest || true'
+                sh 'docker rmi meuapp/node-api:latest || true'
+            }
+        }
+
+        stage('Build das Imagens Docker') {
+            steps {
+                // Construir imagem do Front-end (Next.js)
+                sh 'docker build -t meuapp/frontend:latest -f frontend/Dockerfile frontend/'
+                // Construir imagem da API Spring Boot
+                sh 'docker build -t meuapp/spring-api:latest -f spring-api/Dockerfile spring-api/'
+                // Construir imagem da API Node.js
+                sh 'docker build -t meuapp/node-api:latest -f node-api/Dockerfile node-api/'
+            }
+        }
+
+        stage('Subir Novos Containers') {
+            steps {
+                // Subir container do Front-end (expondo porta 3000 por exemplo)
+                sh 'docker run -d --name frontend-container -p 3000:3000 meuapp/frontend:latest'
+                // Subir container da API Spring (expondo porta 8080)
+                sh 'docker run -d --name spring-container -p 8080:8080 meuapp/spring-api:latest'
+                // Subir container da API Node (expondo porta 3001)
+                sh 'docker run -d --name node-container -p 3001:3000 meuapp/node-api:latest'
+            }
+        }
+    }
+
+    post {
+        // Enviar e-mail em caso de sucesso ou falha
+        success {
+            emailext(
+                to: 'destinatario@exemplo.com',
+                subject: "[SUCESSO] Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Pipeline executado com sucesso em ${env.BUILD_TIMESTAMP}. Build #${env.BUILD_NUMBER} finalizado com sucesso."
+            )
+        }
+        failure {
+            emailext(
+                to: 'destinatario@exemplo.com',
+                subject: "[FALHA] Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Pipeline falhou na execuçao em ${env.BUILD_TIMESTAMP}. Favor verificar os logs do Jenkins para detalhes."
+            )
+        }
+    }
+}
